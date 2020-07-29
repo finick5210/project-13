@@ -8,7 +8,7 @@ Project from the [Yandex.practikum](https://praktikum.yandex.ru/) web developer 
 
 ## How to start project
 1. To start project just perform command "npm run start" from project root
-2. Project will be available by link [Project12](http://localhost:3000)
+2. Project will be available by link [Project 13](http://localhost:3000)
 
 ## API
 1. GET '/users' - returns user list
