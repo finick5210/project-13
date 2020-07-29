@@ -12,11 +12,23 @@ module.exports.createCard = (req, res) => {
 
   Card.create({ name, link, owner: _id })
     .then((card) => res.send({ data: card }))
-    .catch((err) => res.status(500).send({ message: err.message }));
+    .catch((err) => {
+      if (err.name === 'ValidationError') {
+        res.status(400).send({ message: err.message });
+      }
+      res.status(500).send({ message: err.message })
+    });
 };
 
 module.exports.deleteCard = (req, res) => {
   Card.findByIdAndRemove(req.params.id)
-    .then((cards) => res.send({ data: cards }))
+    .then((card) => {
+      if (card === null) {
+        res.status('404');
+        res.send({ message: 'Нет карточки с таким id' });
+        return;
+      }
+      res.send({ data: card });
+    })
     .catch((err) => res.status(500).send({ message: err.message }));
 };

@@ -13,12 +13,24 @@ module.exports.createUser = (req, res) => {
     name, about, avatar,
   })
     .then((user) => res.send({ data: user }))
-    .catch((err) => res.status(500).send({ message: err.message }));
+    .catch((err) => {
+      if (err.name === 'ValidationError') {
+        res.status(400).send({ message: err.message });
+      }
+      res.status(500).send({ message: err.message })
+    });
 };
 
 module.exports.getUser = (req, res) => {
   const { id } = req.params;
   User.findById(id)
-    .then((user) => res.send({ data: user }))
+    .then((user) => {
+      if (user === null) {
+        res.status('404');
+        res.send({ message: 'Нет пользователя с таким id' });
+        return;
+      }
+      res.send({ data: user });
+    })
     .catch((err) => res.status(500).send({ message: err.message }));
 };
