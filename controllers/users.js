@@ -16,8 +16,9 @@ module.exports.createUser = (req, res) => {
     .catch((err) => {
       if (err.name === 'ValidationError') {
         res.status(400).send({ message: err.message });
+        return;
       }
-      res.status(500).send({ message: err.message })
+      res.status(500).send({ message: err.message });
     });
 };
 
